@@ -1,11 +1,9 @@
 const puppeteer = require("puppeteer");
-const extensionPath = "extension";
+const extensionPath = "mv3";
 
 let browser;
-let page;
-let backgroundPage;
 
-function run()
+async function run()
 {
   browser = await puppeteer.launch({headless: false, args: [
     `--disable-extensions-except=${extensionPath}`,
@@ -13,10 +11,14 @@ function run()
     "--no-sandbox"
   ]});
   page = await browser.newPage();
-  const extensionName = "Chromium browser automation";
+  const extensionName = "Boilerplate";
   const targets = await browser.targets();
-  const backgroundPageTarget = targets.find(({ _targetInfo }) => _targetInfo.title.startsWith(extensionName) && _targetInfo.type === "background_page");
-  backgroundPage = await backgroundPageTarget.page();
+  setTimeout(() => {
+    targets.forEach(({_targetInfo}) => {
+      console.log(_targetInfo.type);
+    })
+  }, 10000);
 }
+
 
 run();
